@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./web
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./web:/var/www/html
+    links:
+      - db
+    
+  db:
+    build: ./db
+    restart: always
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: appDB
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
